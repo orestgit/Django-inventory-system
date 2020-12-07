@@ -1,0 +1,16 @@
+{% extends "inventory/base.html" %}
+
+{% block content %}
+
+<h2>Search result</h2>
+{% if item_list %}
+    <div class="card-columns">
+    {% for i in item_list %}
+        {% include 'inventory/item.html' %}
+    {% endfor %}
+    </div>
+{% else %}
+    <p>No items match the search parameters.</p>
+{% endif %}
+
+{% endblock %}

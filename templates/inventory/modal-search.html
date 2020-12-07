@@ -1,0 +1,23 @@
+{% if search_form %}
+{% load crispy_forms_tags %}
+<div id="searchmodal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Search</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="{% url 'inventory:search' %}" method="post">
+                <div class="modal-body">
+                    {% crispy search_form %}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-search" aria-hidden="true"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}

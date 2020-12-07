@@ -1,0 +1,26 @@
+{% extends "inventory/base.html" %}
+
+{% block content %}
+
+{% if bucket_list %}
+    <div class="card-columns">
+    {% for bucket, items in bucket_list.items %}
+        <div class="card"><div class="card-block">
+        <h4 class="card-title">{{ bucket.name }}</h4>
+        <ul class="list-group list-group-flush mb-3">
+        {% if items %}
+            {% for item in items %}
+                <li class="list-group-item">{{ item.name }}</li>
+            {% endfor %}
+        {% else %}
+            <li class="list-group-item">No items in bucket.</li>
+        {% endif %}
+        </ul>
+        <a class="btn btn-primary" href="{% url 'inventory:bucket' bucket.id %}">Open Bucket</a>
+        </div></div>
+    {% endfor %}
+{% else %}
+    <p>No buckets created.</p>
+{% endif %}
+
+{% endblock %}
