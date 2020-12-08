@@ -1,0 +1,14 @@
+[Unit]
+Description=uWSGI Emperor
+
+[Service]
+ExecStartPre=/bin/bash -c 'mkdir -p /run/uwsgi; chown inventory:www-data /run/uwsgi'
+ExecStart=/usr/bin/uwsgi --emperor /etc/uwsgi/sites/inventory.ini --enable-threads
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
