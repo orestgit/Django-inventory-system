@@ -1,0 +1,53 @@
+{% if item_form and formset %}
+{% load crispy_forms_tags %}
+<script type="text/html" id="item-template">
+    <div id="item-__prefix__">
+        <hr />
+        {% crispy formset.empty_form formset.empty_form.helper %} 
+    </div>
+</script>
+<script>
+$(document).ready(function() {
+    $('.add-identifier').click(function(ev) {
+        ev.preventDefault();
+        var count = parseInt($('#id_identifier_set-TOTAL_FORMS').val());
+        var tmplMarkup = $('#item-template').html();
+        var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+        $('div#items-form-container').append(compiledTmpl);
+
+        // update form count
+        $('#id_identifier_set-TOTAL_FORMS').val(count+1);
+    });
+});
+</script>
+
+<div id="addmodal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Item</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form action="{% url 'inventory:add' %}" method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    {% crispy item_form %}
+                    <div id="items-form-container">
+                        {{ formset.management_form }}
+                        {% for form in formset.forms %}
+                            <div id="item-{{ forloop.counter0 }}">
+                                {% crispy form form.helper %}
+                            </div>
+                        {% endfor %}    
+                    </div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="add-identifier-button" class="btn btn-secondary add-identifier"><span class="glyphicon glyphicon-plus"></span> Add Identifier</button>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
