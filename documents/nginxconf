@@ -1,0 +1,12 @@
+server {
+        listen 8080;
+        location /static/ {
+            root /home/inventory/website;
+        }
+        location / {
+            include uwsgi_params;
+            uwsgi_modifier1 0;
+            uwsgi_pass unix:/run/uwsgi/inventory.sock;
+       }
+}
+
